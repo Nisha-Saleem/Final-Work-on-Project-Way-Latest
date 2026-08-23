@@ -426,15 +426,29 @@
   color: #9ca3af;
 }
 
-.dash-feedback-input {
+.dash-feedback-input-wrapper {
+  position: relative;
   width: 95%;
+}
+
+.dash-feedback-input {
+  width: 100%;
   min-height: 3.5rem;
   border-radius: 0.75rem;
   border: 1px solid #d1d5db;
   background-color: #ffffff;
   font-size: 0.875rem;
   padding: 0.375rem;
+  padding-right: 6rem;
   color: #111827;
+  box-sizing: border-box;
+  display: block;
+}
+
+.dash-feedback-send-btn {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
 }
 
 .dash-actions-row {
