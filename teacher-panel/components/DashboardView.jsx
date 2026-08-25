@@ -237,12 +237,48 @@ const DashboardView = ({ showIssues, setShowIssues, notificationSelectId, onNoti
                     <span className="dash-feedback-label">
                       Feedback <span className="dash-feedback-label-note">(Required for rejection)</span>
                     </span>
-                    <textarea
-                      value={feedback}
-                      onChange={(e) => setFeedback(e.target.value)}
-                      className="dash-feedback-input"
-                      placeholder="Enter feedback for the students..."
-                    ></textarea>
+                    <div className="dash-feedback-input-wrap">
+                      <textarea
+                        value={feedback}
+                        onChange={(e) => setFeedback(e.target.value)}
+                        className="dash-feedback-input"
+                        placeholder="Enter feedback for the students..."
+                      ></textarea>
+                      <button
+                        onClick={async () => {
+                          if (feedback.trim()) {
+                            try {
+                              const result = await sendFeedback(
+                                selectedIdea._id || selectedIdea.id,
+                                selectedIdea.title,
+                                selectedIdea.leader.name,
+                                feedback,
+                                'Teacher',
+                                selectedIdea.projectName || '',
+                                selectedIdea.groupId || ''
+                              );
+
+                              if (result.success) {
+                                alert('Feedback sent to student!');
+                                setFeedback('');
+                              } else {
+                                alert('Error sending feedback: ' + result.message);
+                              }
+                            } catch (error) {
+                              console.error('Error sending feedback:', error);
+                              alert('Error sending feedback');
+                            }
+                          } else {
+                            alert('Please enter feedback before sending');
+                          }
+                        }}
+                        className="dash-feedback-send-btn"
+                        type="button"
+                      >
+                        <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>send</span>
+                        Send
+                      </button>
+                    </div>
                   </label>
                 </div>
 
@@ -262,40 +298,6 @@ const DashboardView = ({ showIssues, setShowIssues, notificationSelectId, onNoti
                   >
                     <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>check_circle</span>
                     Accept
-                  </button>
-                  <button
-                    onClick={async () => {
-                      if (feedback.trim()) {
-                        try {
-                          const result = await sendFeedback(
-                            selectedIdea._id || selectedIdea.id,
-                            selectedIdea.title,
-                            selectedIdea.leader.name,
-                            feedback,
-                            'Teacher',
-                            selectedIdea.projectName || '',
-                            selectedIdea.groupId || ''
-                          );
-
-                          if (result.success) {
-                            alert('Feedback sent to student!');
-                            setFeedback('');
-                          } else {
-                            alert('Error sending feedback: ' + result.message);
-                          }
-                        } catch (error) {
-                          console.error('Error sending feedback:', error);
-                          alert('Error sending feedback');
-                        }
-                      } else {
-                        alert('Please enter feedback before sending');
-                      }
-                    }}
-                    className="dash-btn dash-btn-secondary"
-                    type="button"
-                  >
-                    <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>send</span>
-                    Send
                   </button>
                 </div>
               </div>

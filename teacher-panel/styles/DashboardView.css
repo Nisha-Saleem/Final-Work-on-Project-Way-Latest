@@ -426,15 +426,45 @@
   color: #9ca3af;
 }
 
+.dash-feedback-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
 .dash-feedback-input {
-  width: 95%;
-  min-height: 3.5rem;
+  width: 100%;
+  min-height: 4.5rem;
   border-radius: 0.75rem;
   border: 1px solid #d1d5db;
   background-color: #ffffff;
   font-size: 0.875rem;
-  padding: 0.375rem;
+  padding: 0.75rem 5.5rem 0.75rem 0.75rem;
   color: #111827;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.dash-feedback-send-btn {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  border: none;
+  border-radius: 0.625rem;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.2);
+}
+
+.dash-feedback-send-btn:hover {
+  background-color: #1d4ed8;
 }
 
 .dash-actions-row {
