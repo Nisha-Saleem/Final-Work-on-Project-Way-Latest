@@ -293,7 +293,7 @@ const DashboardView = ({ showIssues, setShowIssues, notificationSelectId, onNoti
                   </button>
                   <button
                     onClick={() => onUpdateStatus(selectedIdea.id, 'Accepted')}
-                    className="dash-btn dash-btn-primary"
+                    className="dash-btn dash-btn-accept"
                     type="button"
                   >
                     <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>check_circle</span>
