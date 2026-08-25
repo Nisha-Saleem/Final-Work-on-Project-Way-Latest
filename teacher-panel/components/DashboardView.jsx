@@ -235,7 +235,7 @@ const DashboardView = ({ showIssues, setShowIssues, notificationSelectId, onNoti
                 <div className="dash-feedback-section">
                   <label className="dash-feedback-label-wrapper">
                     <span className="dash-feedback-label">
-                      Feedback <span className="dash-feedback-label-note">(Required for rejection)</span>
+                      Feedback <span className="dash-feedback-label-note">(Remarks/Reason for decision)</span>
                     </span>
                     <div className="dash-feedback-input-wrap">
                       <textarea
