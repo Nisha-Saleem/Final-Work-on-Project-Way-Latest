@@ -332,7 +332,7 @@ const SubmitIdea = ({ userName = '' }) => {
                <select className={`si-select ${errors.session ? 'error' : ''}`} value={session} onChange={(e) => setSession(e.target.value)}>
                   <option value="">Select Session</option>
                   <option value="Morning Session (09:00 - 12:00)">Morning Session (09:00 - 12:00)</option>
-                  <option value="Evening Session (14:00 - 17:00)">Evening Session (14:00 - 17:00)</option>
+                  <option value="Evening Session (01:00 - 04:00)">Evening Session (01:00 - 04:00)</option>
                 </select>
                 <span className="si-select-icon-wrapper">
                   <span className="material-symbols-outlined si-select-icon">
