@@ -27,11 +27,11 @@ const Upload = () => {
   const handleFileSelect = (event) => {
     const files = Array.from(event.target.files);
     
-    // Validate file sizes (max 10MB per file)
-    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+    // Validate file sizes (max 20MB per file)
+    const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB in bytes
     const validFiles = files.filter(file => {
       if (file.size > MAX_FILE_SIZE) {
-        alert(`File "${file.name}" is too large. Maximum file size is 10MB.`);
+        alert(`File "${file.name}" is too large. Maximum file size is 20MB.`);
         return false;
       }
       return true;
@@ -58,12 +58,12 @@ const Upload = () => {
       return;
     }
 
-    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+    const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB in bytes
     
     // Validate all files
     for (let file of selectedFilesToUpload) {
       if (file.size > MAX_FILE_SIZE) {
-        alert(`File "${file.name}" exceeds the 10MB limit.`);
+        alert(`File "${file.name}" exceeds the 20MB limit.`);
         return;
       }
     }
@@ -190,7 +190,6 @@ const Upload = () => {
           <div className="announcement-section">
             <label className="announcement-label">
               Announcement
-              <span className="announcement-note">(Hold Enter to broadcast)</span>
             </label>
             <textarea
               value={announcement}
@@ -224,7 +223,7 @@ const Upload = () => {
                   Click to browse or drag and drop files here
                 </p>
                 <p className="upload-subtext">
-                  Supported formats: PDF, JPG, PNG, DOC, DOCX (Max 10MB per file)
+                  Supported formats: PDF, DOC, DOCX (Max 20MB per file)
                 </p>
               </div>
             </div>
