@@ -136,13 +136,24 @@ export const submitIssue = async (issueData) => {
   }
 };
 
-export const getAllIssues = async () => {
+export const getAllIssues = async (userName) => {
   try {
-    const response = await api.get('/api/teacher/issues/all');
+    const query = userName ? `?userName=${encodeURIComponent(userName)}` : '';
+    const response = await api.get(`/api/teacher/issues/all${query}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching all issues:', error);
     return { success: false, message: 'Error fetching all issues', error: error.message };
+  }
+};
+
+export const markIssueAsRead = async (issueId, userName) => {
+  try {
+    const response = await api.put(`/api/teacher/issues/${issueId}/read`, { userName });
+    return response.data;
+  } catch (error) {
+    console.error('Error marking issue as read:', error);
+    return { success: false, message: 'Error marking issue as read', error: error.message };
   }
 };
 

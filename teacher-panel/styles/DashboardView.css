@@ -484,6 +484,7 @@
 
 /* Issues Button */
 .issues-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -500,6 +501,20 @@
 
 .issues-btn:hover {
   background-color: #e5e7eb;
+}
+
+.issues-badge {
+  min-width: 1.125rem;
+  height: 1.125rem;
+  padding: 0 0.25rem;
+  margin-left: 0.125rem;
+  background-color: #ef4444;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1.125rem;
+  text-align: center;
 }
 
 /* Issues Panel */

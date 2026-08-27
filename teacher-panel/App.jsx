@@ -4,7 +4,7 @@ import DashboardView from './components/DashboardView';
 import AllIdeasView from './components/AllIdeasView';
 import ProgressView from './components/ProgressView';
 import Upload from './components/Upload';
-import { notifications } from './api/teacherPanelApi';
+import { notifications, getAllIssues, markIssueAsRead } from './api/teacherPanelApi';
 import './styles/main.css';
 import './styles/utilities.css';
 import './styles/scrollbar.css';
@@ -15,6 +15,7 @@ const Navigation = ({ userName, onLogout }) => {
   const [showIssues, setShowIssues] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [ideaNotifications, setIdeaNotifications] = useState([]);
+  const [studentIssues, setStudentIssues] = useState([]);
   const [notificationSelectId, setNotificationSelectId] = useState(null);
   const [teacherPermissions, setTeacherPermissions] = useState([]);
 
@@ -64,6 +65,24 @@ const Navigation = ({ userName, onLogout }) => {
     return () => clearInterval(interval);
   }, [userName]);
 
+  useEffect(() => {
+    const loadIssues = async () => {
+      try {
+        const result = await getAllIssues(userName);
+        if (result.success) {
+          setStudentIssues(result.issues || []);
+        }
+      } catch (error) {
+        console.error('Error loading issues:', error);
+        setStudentIssues([]);
+      }
+    };
+
+    loadIssues();
+    const interval = setInterval(loadIssues, 2000);
+    return () => clearInterval(interval);
+  }, [userName]);
+
   const canUpload = !teacherPermissions.includes('idea.upload');
   const canViewProgress = !teacherPermissions.includes('progress.track');
   const canReviewIdeas = !teacherPermissions.includes('idea.review');
@@ -75,6 +94,19 @@ const Navigation = ({ userName, onLogout }) => {
   };
 
   const unreadNotificationCount = ideaNotifications.filter((n) => !n.read).length;
+  const unreadIssueCount = studentIssues.filter((issue) => !issue.isRead).length;
+
+  const handleOpenIssues = () => {
+    const unread = studentIssues.filter((issue) => !issue.isRead);
+    setStudentIssues((prev) => prev.map((issue) => ({ ...issue, isRead: true })));
+    setShowIssues(true);
+    unread.forEach((issue) => {
+      const issueId = issue._id || issue.id;
+      if (issueId && userName) {
+        markIssueAsRead(issueId, userName);
+      }
+    });
+  };
 
   const handleNotificationClick = async (notification) => {
     try {
@@ -175,11 +207,14 @@ const Navigation = ({ userName, onLogout }) => {
             {isActive('/dashboard') && canCreateTasks && (
               <>
                 <button 
-                  onClick={() => setShowIssues(true)}
+                  onClick={handleOpenIssues}
                   className="issues-btn"
                 >
                   <span className="material-symbols-outlined">help</span>
                   Issues
+                  {unreadIssueCount > 0 && (
+                    <span className="issues-badge">{unreadIssueCount}</span>
+                  )}
                 </button>
                 <div className="notification-wrapper">
                   <button
