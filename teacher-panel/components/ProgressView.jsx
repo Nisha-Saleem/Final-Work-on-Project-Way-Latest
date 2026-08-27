@@ -23,8 +23,6 @@ const ProgressView = () => {
     };
 
     loadActiveProjects();
-    const interval = setInterval(loadActiveProjects, 2000);
-    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -40,8 +38,6 @@ const ProgressView = () => {
     };
 
     loadAllProgress();
-    const interval = setInterval(loadAllProgress, 2000);
-    return () => clearInterval(interval);
   }, []);
 
   const activeIdeas = projects
