@@ -7,6 +7,8 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  maxBodyLength: 20 * 1024 * 1024,
+  maxContentLength: 20 * 1024 * 1024,
 });
 
 // Teacher Dashboard API
@@ -186,9 +188,10 @@ export const deleteIssue = async (issueId) => {
 
 // Notifications API (reusing existing notification routes)
 export const notifications = {
-  getAllNotifications: async () => {
+  getAllNotifications: async (userName) => {
     try {
-      const response = await api.get('/api/notifications/all');
+      const query = userName ? `?userName=${encodeURIComponent(userName)}` : '';
+      const response = await api.get(`/api/notifications/all${query}`);
       return response.data;
     } catch (error) {
       console.error('Error fetching notifications:', error);
@@ -196,9 +199,9 @@ export const notifications = {
     }
   },
 
-  markAsRead: async (notificationId) => {
+  markAsRead: async (notificationId, userName) => {
     try {
-      const response = await api.put(`/api/notifications/read/${notificationId}`);
+      const response = await api.put(`/api/notifications/read/${notificationId}`, { userName });
       return response.data;
     } catch (error) {
       console.error('Error marking notification as read:', error);

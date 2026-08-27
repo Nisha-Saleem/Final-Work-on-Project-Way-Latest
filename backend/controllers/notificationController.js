@@ -4,11 +4,20 @@ import { User } from '../models/User.js';
 // Get all notifications (for teacher)
 export const getAllNotifications = async (req, res) => {
   console.log('🔔 [Notifications] Get all notifications request received');
+  console.log('🔔 [Notifications] User name:', req.query.userName);
 
   try {
+    const { userName } = req.query;
     const notifications = await Notification.find({ recipient: 'teacher' }).sort({ submittedAt: -1 });
+
+    // Add a computed 'read' field based on whether the current teacher has read it
+    const notificationsWithReadStatus = notifications.map(notification => ({
+      ...notification.toObject(),
+      read: userName ? notification.readBy.includes(userName) : false
+    }));
+
     console.log('✅ [Notifications] Retrieved', notifications.length, 'notifications total');
-    res.status(200).json({ success: true, notifications });
+    res.status(200).json({ success: true, notifications: notificationsWithReadStatus });
   } catch (error) {
     console.error('❌ [Notifications] Error fetching notifications:', error);
     res.status(500).json({

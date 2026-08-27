@@ -49,7 +49,7 @@ const Navigation = ({ userName, onLogout }) => {
   useEffect(() => {
     const loadNotifications = async () => {
       try {
-        const result = await notifications.getAllNotifications();
+        const result = await notifications.getAllNotifications(userName);
         if (result.success) {
           setIdeaNotifications(result.notifications.sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt)));
         }
@@ -62,7 +62,7 @@ const Navigation = ({ userName, onLogout }) => {
     loadNotifications();
     const interval = setInterval(loadNotifications, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [userName]);
 
   const canUpload = !teacherPermissions.includes('idea.upload');
   const canViewProgress = !teacherPermissions.includes('progress.track');
@@ -78,7 +78,7 @@ const Navigation = ({ userName, onLogout }) => {
 
   const handleNotificationClick = async (notification) => {
     try {
-      const result = await notifications.markAsRead(notification._id);
+      const result = await notifications.markAsRead(notification._id, userName);
       if (result.success) {
         const updated = ideaNotifications.map((n) =>
           n._id === notification._id ? { ...n, read: true } : n
@@ -124,13 +124,6 @@ const Navigation = ({ userName, onLogout }) => {
               <h1>Teacher Panel</h1>
               <p className="user-name">{userName || 'Teacher'}</p>
             </div>
-            <button
-              onClick={onLogout}
-              className="logout-btn"
-              title="Logout"
-            >
-              <span className="material-symbols-outlined">logout</span>
-            </button>
           </div>
           {/* Navigation */}
           <nav className="nav-menu">
@@ -163,6 +156,14 @@ const Navigation = ({ userName, onLogout }) => {
               <p className={`nav-text ${isActive('/upload') ? 'active' : ''}`}>Upload</p>
             </button>}
           </nav>
+          <button
+            onClick={onLogout}
+            className="logout-btn"
+            title="Logout"
+          >
+            <span className="material-symbols-outlined">logout</span>
+            <span className="logout-btn-text">Logout</span>
+          </button>
         </div>
       </aside>
 
