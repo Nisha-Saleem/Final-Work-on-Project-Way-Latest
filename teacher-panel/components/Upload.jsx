@@ -223,7 +223,7 @@ const Upload = () => {
                   Click to browse or drag and drop files here
                 </p>
                 <p className="upload-subtext">
-                  Supported formats: PDF, DOC, DOCX (Max 20MB per file)
+                  Supported formats: PDF, PNG, JPG, DOC, DOCX (Max 20MB per file)
                 </p>
               </div>
             </div>
